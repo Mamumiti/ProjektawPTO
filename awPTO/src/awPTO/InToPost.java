@@ -19,8 +19,9 @@ public class InToPost {
 			case '-':
 				gotOper(ch, 1);
 				break;
-			case '*':
-			case '/':
+			case '&':
+			case '|':
+			case '~':
 				gotOper(ch, 2);
 				break;
 			case '(':
@@ -72,4 +73,10 @@ public class InToPost {
 				output = output + chx;
 		}
 	}
+
+	public Stack getTheStack() {
+		return theStack;
+	}
+	
+	
 }

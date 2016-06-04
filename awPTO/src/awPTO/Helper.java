@@ -18,9 +18,7 @@ public class Helper {
 			    InputStreamReader isr = new InputStreamReader(fis, Charset.forName("UTF-8"));
 			    BufferedReader br = new BufferedReader(isr);
 			) {
-			    while ((line = br.readLine()) != null) {
-			        System.out.println(line);
-			    }
+			line = br.readLine();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -29,6 +27,16 @@ public class Helper {
 
 	public String getLine() {
 		return line;
+	}
+	
+	public int getVariableQuantity() {
+		int temp = 0;
+		for (int i = 0; i < line.length(); i++) {
+			if(Character.isLetter(line.charAt(i))) {
+				temp++;
+			}
+		}	
+		return temp;
 	}
 	
 	
