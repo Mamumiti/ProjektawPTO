@@ -16,6 +16,7 @@ public class Primary {
 	private XOR xor;
 	private NOR nor;
 	private NAND nand;
+	private NOT not;
 	private Queue queueValues;
 	private Queue queueVariables;
 	private ArrayList<String> variableList = new ArrayList<String>();;
@@ -82,15 +83,17 @@ public class Primary {
 
 	
 	private void calculateInput(){
-		String pom;
+		String pom = "";
 		String queueVPom[] = new String[4];
 		String queueBPom[] = new String[4];
 		boolean notFlag = false;
+		String lastSymbol;
 		for (int i = 0; i < helper.getLine().length(); i++) {
+			lastSymbol=pom;
 			pom = helper.getNextSymbol();
 			Iterator<String> binaryIterator;
 			int index;
-			Boolean flag = false;
+			
 			switch (pom) {
 			case "|":
 				if(notFlag==false) {
@@ -112,7 +115,7 @@ public class Primary {
 					binaryList.set(index, new StringBuilder(orPom).append(or.calculate()).toString());
 					index++;
 				}
-				flag = true;
+			
 				variableList.add(or.getOperation());
 				queueVariables.Push(or.getOperation(), 0);
 				String a = or.getOperation();
@@ -138,7 +141,7 @@ public class Primary {
 						binaryList.set(index, new StringBuilder(orPom).append(nor.calculate()).toString());
 						index++;
 					}
-					flag = true;
+					
 					notFlag=false;
 					variableList.add(nor.getOperation());
 					queueVariables.Push(nor.getOperation(), 0);
@@ -166,7 +169,7 @@ public class Primary {
 					binaryList.set(index, new StringBuilder(orPom).append(and.calculate()).toString());
 					index++;
 				}
-				flag = true;
+			
 				variableList.add(and.getOperation());
 				queueVariables.Push(and.getOperation(), 0);
 				queueValues.Push(String.valueOf(getVariableColumn(and.getOperation())), 0);
@@ -190,7 +193,7 @@ public class Primary {
 						binaryList.set(index, new StringBuilder(orPom).append(nand.calculate()).toString());
 						index++;
 					}
-					flag = true;
+				
 					variableList.add(nand.getOperation());
 					queueVariables.Push(nand.getOperation(), 0);
 					queueValues.Push(String.valueOf(getVariableColumn(nand.getOperation())), 0);
@@ -215,7 +218,7 @@ public class Primary {
 					binaryList.set(index, new StringBuilder(orPom).append(xor.calculate()).toString());
 					index++;
 				}
-				flag = true;
+			
 				variableList.add(xor.getOperation());
 				queueVariables.Push(xor.getOperation(), 0);
 				queueValues.Push(String.valueOf(getVariableColumn(xor.getOperation())), 0);
@@ -225,10 +228,31 @@ public class Primary {
 				notFlag=true;
 				break;
 			default:
-				if (flag == false) {
+				if(notFlag==true) {
+					not.setSymbol((queueVariables.Pop().getName()));
+					queueBPom[0] = queueValues.Pop().getName();
+					queueBPom[1] = queueValues.Pop().getName();
+					while(!queueValues.isEmpty())
+					{
+						queueValues.Pop();
+					}
+
+					binaryIterator = binaryList.iterator();
+					index = 0;
+					while (binaryIterator.hasNext()) {
+						String orPom = binaryIterator.next();
+						not.setValue(orPom.charAt(Integer.parseInt(queueBPom[1])) + "");
+						binaryList.set(index, new StringBuilder(orPom).append(not.calculate()).toString());
+						index++;
+					}
+				
+					variableList.add(not.getOperation());
+					queueVariables.Push(not.getOperation(), 0);
+					queueValues.Push(String.valueOf(getVariableColumn(not.getOperation())), 0);
+				}
 					queueVariables.Push(pom, 0);
 					queueValues.Push(String.valueOf(getVariableColumn(pom)), 0);
-				}
+				
 				break;
 			}
 
