@@ -64,7 +64,8 @@ public class Primary {
 				flag = true;
 				variableList.add(or.getOperation());
 				queueVariables.Push(or.getOperation(), 0);
-				queueValues.Push(or.calculate(), 0);
+				String a = or.getOperation();
+				queueValues.Push(String.valueOf(getVariableColumn(or.getOperation())), 0);
 				break;
 			case "&":
 
@@ -140,7 +141,7 @@ public class Primary {
 
 	private int getVariableColumn(String variable) {
 		int i = 0;
-		Iterator<String> variableIterator = helper.getVariables().iterator();
+		Iterator<String> variableIterator = variableList.iterator();
 		Set<String> s = helper.getVariables();
 		while (variableIterator.hasNext()) {
 			if (variableIterator.next().indexOf(variable) != -1) {
