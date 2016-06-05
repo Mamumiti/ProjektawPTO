@@ -7,17 +7,7 @@ public class OR {
 	private String result;
 	private char firstSymbol;
 	private char secondSymbol;
-	
-
-	public OR(String firstValue, String secondValue, char firstSymbol, char secondSymbol) {
-		this.firstValue = firstValue;
-		this.secondValue = secondValue;
-		this.firstSymbol = firstSymbol;
-		this.secondSymbol = secondSymbol;
-		this.result = calculate(this.firstValue, this.secondValue);
-	}
-
-	
+		
 	public String getFirstValue() {
 		return firstValue;
 	}
@@ -34,12 +24,7 @@ public class OR {
 		this.secondValue = secondValue;
 	}
 
-	public OR(String firstValue, String secondValue) {
-		this.firstValue = firstValue;
-		this.secondValue = secondValue;
-	}
-
-	private String calculate(String firstValue, String secondValue) {
+	public String calculate(String firstValue, String secondValue) {
 		if ((firstValue.equals("1")) && (secondValue.equals("1"))) {
 			return "1";
 		}
