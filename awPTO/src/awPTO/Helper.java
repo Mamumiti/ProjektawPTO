@@ -30,6 +30,14 @@ public class Helper {
 		binaryMatrix = generateBinaryMatrix();
 	}
 
+	public Set<String> getVariables() {
+		return variables;
+	}
+
+	public Set<String> getBinaryMatrix() {
+		return binaryMatrix;
+	}
+
 	public String getLine() {
 		return line;
 	}
@@ -47,8 +55,11 @@ public class Helper {
 		}
 		return tree;
 	}
-
-	public Set<String> generateBinaryMatrix() {
+public int getBinaryMatrixSize() {
+	return binaryMatrix.size();
+}
+	
+	private Set<String> generateBinaryMatrix() {
 		Set<String> tree = new TreeSet<>();
 		for (int i = 0; i < Math.pow(2, getVariableQuantity()); i++) {
 			StringBuilder st = new StringBuilder();
