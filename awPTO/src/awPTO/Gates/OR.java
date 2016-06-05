@@ -2,14 +2,14 @@ package awPTO.Gates;
 
 public class OR {
 
-	private int firstValue;
-	private int secondValue;
-	private int result;
+	private String firstValue;
+	private String secondValue;
+	private String result;
 	private char firstSymbol;
 	private char secondSymbol;
 	
 
-	public OR(int firstValue, int secondValue, char firstSymbol, char secondSymbol) {
+	public OR(String firstValue, String secondValue, char firstSymbol, char secondSymbol) {
 		this.firstValue = firstValue;
 		this.secondValue = secondValue;
 		this.firstSymbol = firstSymbol;
@@ -18,35 +18,35 @@ public class OR {
 	}
 
 	
-	public int getFirstValue() {
+	public String getFirstValue() {
 		return firstValue;
 	}
 
-	public void setFirstValue(int firstValue) {
+	public void setFirstValue(String firstValue) {
 		this.firstValue = firstValue;
 	}
 
-	public int getSecondValue() {
+	public String getSecondValue() {
 		return secondValue;
 	}
 
-	public void setSecondValue(int secondValue) {
+	public void setSecondValue(String secondValue) {
 		this.secondValue = secondValue;
 	}
 
-	public OR(int firstValue, int secondValue) {
+	public OR(String firstValue, String secondValue) {
 		this.firstValue = firstValue;
 		this.secondValue = secondValue;
 	}
 
-	private int calculate(int firstValue, int secondValue) {
-		if ((firstValue == 1) && (secondValue == 1)) {
-			return 1;
+	private String calculate(String firstValue, String secondValue) {
+		if ((firstValue.equals("1")) && (secondValue.equals("1"))) {
+			return "1";
 		}
-		return 0;
+		return "0";
 	}
 
-	public int getResult() {
+	public String getResult() {
 
 		return result;
 	}
