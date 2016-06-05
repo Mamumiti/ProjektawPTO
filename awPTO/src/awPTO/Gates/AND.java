@@ -1,7 +1,6 @@
 package awPTO.Gates;
 
-public class OR {
-
+public class AND {
 	private String firstValue;
 	private String secondValue;
 	private String result;
@@ -41,7 +40,7 @@ public class OR {
 	}
 
 	public String calculate() {
-		if ((firstValue.equals("1")) || (secondValue.equals("1"))) {
+		if ((firstValue.equals("1")) && (secondValue.equals("1"))) {
 			result = "1";
 			return "1";
 		}
@@ -67,11 +66,10 @@ public class OR {
 	}
 
 	public String getOperation() {
-		return new StringBuilder().append(firstSymbol).append("|").append(secondSymbol).toString();
+		return new StringBuilder().append(firstSymbol).append("&").append(secondSymbol).toString();
 	}
 
 	public void printOperation() {
-		System.out.print(new StringBuilder().append(firstSymbol).append("|").append(secondSymbol).toString());
+		System.out.print(new StringBuilder().append(firstSymbol).append("&").append(secondSymbol).toString());
 	}
-
 }

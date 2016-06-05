@@ -1,112 +1,144 @@
 package awPTO;
 
+import java.awt.List;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
 
+import awPTO.Gates.AND;
 import awPTO.Gates.OR;
 
 public class Primary {
 
 	private Helper helper;
 	private OR or;
+	private AND and;
 	private Queue queueValues;
 	private Queue queueVariables;
-	private String[] variableArray;
-	private String[] binaryArray;;
+	private ArrayList<String> variableList = new ArrayList<String>();;
+	private ArrayList<String> binaryList = new ArrayList<String>();;
 
 	public Primary(Helper helper) {
 		this.helper = helper;
 		queueValues = new Queue(helper.getLine().length());
 		queueVariables = new Queue(helper.getLine().length());
-		variableArray = new String[helper.getVariableQuantity()];
-		binaryArray = new String[helper.getBinaryMatrixSize()];
 		or = new OR();
+		and = new AND();
 		setToArray();
-		System.out.println(variableArray.length);
-		System.out.println(binaryArray.length);
+		System.out.println(variableList.size());
+		System.out.println(binaryList.size());
 
-		// for (int i = 0; i < variableArray.length; i++) {
-		// System.out.print(variableArray[i]);
-		// }
-		// System.out.println();
-		//
-		// for (int i = 0; i < binaryArray.length; i++) {
-		// System.out.println(binaryArray[i]);
-		// }
 		String pom;
+		String queueVPom[] = new String[4];
+		String queueBPom[] = new String[4];
+
 		for (int i = 0; i < helper.getLine().length(); i++) {
 			pom = helper.getNextSymbol();
-		// System.out.println(pom + " "+getVariableColumn(pom));
+			Iterator<String> binaryIterator;
+			int index;
+			Boolean flag = false;
 			switch (pom) {
 			case "|":
-					for (int j = 0; j < binaryArray.length; j++) {
-						//System.out.println((binaryArray[j].charAt(0)+"").equals("1"));
-						or.setFirstValue(binaryArray[j].charAt(0)+"");
-						or.setSecondValue(binaryArray[j].charAt(1)+"");
-						or.setFirstSymbol('A');
-						or.setSecondSymbol('B');
-						or.calculate();
-						or.printOperation();
-						or.printResult();
-					}
+
+				or.setFirstSymbol(queueVariables.Pop().getName());
+				or.setSecondSymbol(queueVariables.Pop().getName());
+				queueBPom[0] = queueValues.Pop().getName();
+				queueBPom[1] = queueValues.Pop().getName();
+				while(!queueValues.isEmpty())
+				{
+					queueValues.Pop();
+				}
+				binaryIterator = binaryList.iterator();
+				index = 0;
+
+				while (binaryIterator.hasNext()) {
+					String orPom = binaryIterator.next();
+					System.out.print(orPom.charAt(Integer.parseInt(queueBPom[1])) + " ");
+					System.out.println(orPom.charAt(Integer.parseInt(queueBPom[0])));
+					or.setFirstValue(orPom.charAt(Integer.parseInt(queueBPom[1])) + "");
+					or.setSecondValue(orPom.charAt(Integer.parseInt(queueBPom[0])) + "");
+					binaryList.set(index, new StringBuilder(orPom).append(or.calculate()).toString());
+					index++;
+				}
+				System.out.println("####");
+				flag = true;
+				variableList.add(or.getOperation());
+				queueVariables.Push(or.getOperation(), 0);
+				queueValues.Push(or.calculate(), 0);
 				break;
+			case "&":
+
+				and.setFirstSymbol(queueVariables.Pop().getName());
+				and.setSecondSymbol(queueVariables.Pop().getName());
+				queueBPom[0] = queueValues.Pop().getName();
+				queueBPom[1] = queueValues.Pop().getName();
+				while(!queueValues.isEmpty())
+				{
+					queueValues.Pop();
+				}
+
+				binaryIterator = binaryList.iterator();
+				index = 0;
+				while (binaryIterator.hasNext()) {
+					String orPom = binaryIterator.next();
+					System.out.print(orPom.charAt(Integer.parseInt(queueBPom[1])) + " ");
+					System.out.println(orPom.charAt(Integer.parseInt(queueBPom[0])));
+
+					and.setFirstValue(orPom.charAt(Integer.parseInt(queueBPom[1])) + "");
+					and.setSecondValue(orPom.charAt(Integer.parseInt(queueBPom[0])) + "");
+					binaryList.set(index, new StringBuilder(orPom).append(and.calculate()).toString());
+					index++;
+				}
+				flag = true;
+				System.out.println();
+				variableList.add(and.getOperation());
+				queueVariables.Push(and.getOperation(), 0);
+				queueValues.Push(String.valueOf(getVariableColumn(and.getOperation())), 0);
 
 			default:
-				queueVariables.Push(pom, 1);
-				queueValues.Push(String.valueOf(getVariableColumn(pom)),1);
+				if (flag == false) {
+					queueVariables.Push(pom, 0);
+					queueValues.Push(String.valueOf(getVariableColumn(pom)), 0);
+				}
 				break;
 			}
-			
-			///System.out.println(getVariableColumn(helper.getNextSymbol()));
+
 		}
 	}
 
 	public void printPrimaryVariablesMatrix() {
-		Iterator binaryIterator = helper.getBinaryMatrix().iterator();
-		String pomBinary;
-		String pomVariable;
-		Iterator variableIterator = helper.getVariables().iterator();
+		Iterator<String> binaryIterator = binaryList.iterator();
+		Iterator<String> variableIterator = variableList.iterator();
+
 		while (variableIterator.hasNext()) {
-			System.out.print(variableIterator.next().toString());
+			System.out.print(" # " + variableIterator.next().toString() + " # ");
 		}
 		System.out.println();
+		String pom;
 		while (binaryIterator.hasNext()) {
+			pom = binaryIterator.next();
+			for (int i = 0; i < pom.length(); i++) {
+				System.out.print(" # " + pom.charAt(i) + " # ");
 
-			pomBinary = (String) binaryIterator.next();
-			for (int i = 0; i < pomBinary.length(); i++) {
-				System.out.print(pomBinary.charAt(i));
 			}
 			System.out.println();
 		}
 	}
 
 	private void setToArray() {
-		Iterator binaryIterator = helper.getBinaryMatrix().iterator();
-		String pomBinary;
-		String pomVariable;
-		Iterator variableIterator = helper.getVariables().iterator();
-		int pom = 0;
-		while (variableIterator.hasNext()) {
-			variableArray[pom] = variableIterator.next().toString();
-			pom++;
-			// System.out.print(variableIterator.next().toString());
-		}
-		// System.out.println();
-		pom = 0;
-		while (binaryIterator.hasNext()) {
+		Iterator<String> binaryIterator = helper.getBinaryMatrix().iterator();
+		Iterator<String> variableIterator = helper.getVariables().iterator();
 
-			// pomBinary = (String) binaryIterator.next();
-			binaryArray[pom] = (String) binaryIterator.next();
-			pom++;
-			// for (int i = 0; i < pomBinary.length(); i++) {
-			// System.out.print( pomBinary.charAt(i));
-			// }
-			// System.out.println();
+		while (variableIterator.hasNext()) {
+			variableList.add(variableIterator.next().toString());
+		}
+
+		while (binaryIterator.hasNext()) {
+			binaryList.add(binaryIterator.next());
 		}
 	}
 
 	private int getVariableColumn(String variable) {
-		String pom;
 		int i = 0;
 		Iterator<String> variableIterator = helper.getVariables().iterator();
 		Set<String> s = helper.getVariables();
@@ -115,7 +147,6 @@ public class Primary {
 				return i;
 			}
 			i++;
-
 		}
 		return -1;
 	}
