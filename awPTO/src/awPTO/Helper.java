@@ -13,24 +13,26 @@ import java.util.TreeSet;
 
 public class Helper {
 
-	private String line;
+	private String inputLine;
 	private Set<String> variables;
 	private Set<String> binaryMatrix;
 	private InToPost inToPost;
+	private String workingLine; 
 
 	public Helper(String filePath) {
 		try (InputStream fis = new FileInputStream(filePath);
 				InputStreamReader isr = new InputStreamReader(fis, Charset.forName("UTF-8"));
 				BufferedReader br = new BufferedReader(isr);) {
-			line = br.readLine();
+			inputLine = br.readLine();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		variables = getVariablesTree();
 		binaryMatrix = generateBinaryMatrix();
-		inToPost = new InToPost(line);
-		
+		inToPost = new InToPost(inputLine);
+		System.out.println(inputLine);
+		this.workingLine = inToPost.doTrans();
 	}
 
 	public Set<String> getVariables() {
@@ -42,30 +44,31 @@ public class Helper {
 	}
 
 	public String getLine() {
-		return line;
+		return inputLine;
 	}
 
 	public int getVariableQuantity() {
 		return variables.size();
 	}
-	
+
 	public void addVariableToTree(String nextValue) {
-			this.variables.add(nextValue);
+		this.variables.add(nextValue);
 	}
 
 	private Set<String> getVariablesTree() {
 		Set<String> tree = new TreeSet<>();
-		for (char c : line.toCharArray()) {
+		for (char c : inputLine.toCharArray()) {
 			if (Character.isLetter(c)) {
 				tree.add(Character.toString(c));
 			}
 		}
 		return tree;
 	}
-public int getBinaryMatrixSize() {
-	return binaryMatrix.size();
-}
-	
+
+	public int getBinaryMatrixSize() {
+		return binaryMatrix.size();
+	}
+
 	private Set<String> generateBinaryMatrix() {
 		Set<String> tree = new TreeSet<>();
 		for (int i = 0; i < Math.pow(2, getVariableQuantity()); i++) {
@@ -78,5 +81,16 @@ public int getBinaryMatrixSize() {
 		}
 		return tree;
 	}
+	
+	public String getNextSymbol() {
+		String pom;
+		while(!workingLine.isEmpty()) {
+			pom = workingLine.charAt(0)+"";
+			this.workingLine = this.workingLine.substring(1);
+			return pom;
+		}
+		return "-1";
+	}
+	
 
 }

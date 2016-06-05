@@ -5,11 +5,19 @@ public class OR {
 	private int firstValue;
 	private int secondValue;
 	private int result;
+	private char firstSymbol;
+	private char secondSymbol;
+	
 
-	public OR() {
+	public OR(int firstValue, int secondValue, char firstSymbol, char secondSymbol) {
+		this.firstValue = firstValue;
+		this.secondValue = secondValue;
+		this.firstSymbol = firstSymbol;
+		this.secondSymbol = secondSymbol;
 		this.result = calculate(this.firstValue, this.secondValue);
 	}
 
+	
 	public int getFirstValue() {
 		return firstValue;
 	}
@@ -51,8 +59,17 @@ public class OR {
 		System.out.println(secondValue);
 	}
 
-	public void printResut() {
+	public void printResult() {
 		System.out.println(result);
 	}
+	
+	public String getOperation() {
+		return  new StringBuilder().append(firstSymbol).append("|").append(secondSymbol).toString();
+	}
+	
+	public void printOperation() {
+		System.out.print(new StringBuilder().append(firstSymbol).append("|").append(secondSymbol).toString());
+	}
+	
 
 }

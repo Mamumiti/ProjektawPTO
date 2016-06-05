@@ -7,7 +7,6 @@ import awPTO.Gates.OR;
 
 public class Primary {
 
-	private InToPost inToPost;
 	private Helper helper;
 	private OR or;
 	
@@ -15,7 +14,9 @@ public class Primary {
 	
 	public Primary(Helper helper) {
 		this.helper = helper;
-		this.inToPost = new InToPost(helper.getLine());
+		for (int i = 0; i < helper.getLine().length(); i++) {
+			System.out.println(helper.getNextSymbol());
+		}
 	}
 	
 	public void printPrimaryVariablesMatrix() {

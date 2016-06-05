@@ -38,7 +38,6 @@ public class InToPost {
 		while (!theStack.isEmpty()) {
 			output = output + theStack.pop();
 		}
-		System.out.println(output);
 		return output;
 	}
 
