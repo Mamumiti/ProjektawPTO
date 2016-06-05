@@ -22,6 +22,7 @@ public class InToPost {
 			case '&':
 			case '|':
 			case '~':
+			case '%':
 				gotOper(ch, 2);
 				break;
 			case '(':

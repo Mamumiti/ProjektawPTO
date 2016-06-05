@@ -5,14 +5,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
 
-import awPTO.Gates.AND;
-import awPTO.Gates.OR;
+import awPTO.Gates.*;
+
 
 public class Primary {
 
 	private Helper helper;
 	private OR or;
 	private AND and;
+	private XOR xor;
 	private Queue queueValues;
 	private Queue queueVariables;
 	private ArrayList<String> variableList = new ArrayList<String>();;
@@ -24,6 +25,7 @@ public class Primary {
 		queueVariables = new Queue(helper.getLine().length());
 		or = new OR();
 		and = new AND();
+		xor = new XOR();
 		setToArray();
 		System.out.println(variableList.size());
 		System.out.println(binaryList.size());
@@ -95,7 +97,35 @@ public class Primary {
 				variableList.add(and.getOperation());
 				queueVariables.Push(and.getOperation(), 0);
 				queueValues.Push(String.valueOf(getVariableColumn(and.getOperation())), 0);
+					break;
+			case "%":
+				xor.setFirstSymbol(queueVariables.Pop().getName());
+				xor.setSecondSymbol(queueVariables.Pop().getName());
+				queueBPom[0] = queueValues.Pop().getName();
+				queueBPom[1] = queueValues.Pop().getName();
+				while(!queueValues.isEmpty())
+				{
+					queueValues.Pop();
+				}
 
+				binaryIterator = binaryList.iterator();
+				index = 0;
+				while (binaryIterator.hasNext()) {
+					String orPom = binaryIterator.next();
+					System.out.print(orPom.charAt(Integer.parseInt(queueBPom[1])) + " ");
+					System.out.println(orPom.charAt(Integer.parseInt(queueBPom[0])));
+
+					xor.setFirstValue(orPom.charAt(Integer.parseInt(queueBPom[1])) + "");
+					xor.setSecondValue(orPom.charAt(Integer.parseInt(queueBPom[0])) + "");
+					binaryList.set(index, new StringBuilder(orPom).append(xor.calculate()).toString());
+					index++;
+				}
+				flag = true;
+				System.out.println();
+				variableList.add(xor.getOperation());
+				queueVariables.Push(xor.getOperation(), 0);
+				queueValues.Push(String.valueOf(getVariableColumn(xor.getOperation())), 0);
+					break;
 			default:
 				if (flag == false) {
 					queueVariables.Push(pom, 0);
