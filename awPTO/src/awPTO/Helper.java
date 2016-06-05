@@ -16,6 +16,7 @@ public class Helper {
 	private String line;
 	private Set<String> variables;
 	private Set<String> binaryMatrix;
+	private InToPost inToPost;
 
 	public Helper(String filePath) {
 		try (InputStream fis = new FileInputStream(filePath);
@@ -28,6 +29,8 @@ public class Helper {
 		}
 		variables = getVariablesTree();
 		binaryMatrix = generateBinaryMatrix();
+		inToPost = new InToPost(line);
+		
 	}
 
 	public Set<String> getVariables() {
@@ -44,6 +47,10 @@ public class Helper {
 
 	public int getVariableQuantity() {
 		return variables.size();
+	}
+	
+	public void addVariableToTree(String nextValue) {
+			this.variables.add(nextValue);
 	}
 
 	private Set<String> getVariablesTree() {
@@ -64,7 +71,6 @@ public int getBinaryMatrixSize() {
 		for (int i = 0; i < Math.pow(2, getVariableQuantity()); i++) {
 			StringBuilder st = new StringBuilder();
 			for (int j = 0; j < getVariableQuantity() - Integer.toBinaryString(i).length(); j++) {
-
 				st.append(0);
 			}
 			st.append(Integer.toBinaryString(i));

@@ -18,6 +18,7 @@ public class awPTO {
 	      
 	      Primary  p = new Primary(new Helper("input.txt"));
 	      p.printPrimaryVariablesMatrix();
+	      
 	}
 	
 	
