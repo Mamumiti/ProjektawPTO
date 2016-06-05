@@ -14,6 +14,8 @@ public class Primary {
 	private OR or;
 	private AND and;
 	private XOR xor;
+	private NOR nor;
+	private NAND nand;
 	private Queue queueValues;
 	private Queue queueVariables;
 	private ArrayList<String> variableList = new ArrayList<String>();;
@@ -26,118 +28,14 @@ public class Primary {
 		or = new OR();
 		and = new AND();
 		xor = new XOR();
+		nand = new NAND();
+		nor = new NOR();
 		setToArray();
-		System.out.println(variableList.size());
-		System.out.println(binaryList.size());
 
-		String pom;
-		String queueVPom[] = new String[4];
-		String queueBPom[] = new String[4];
-
-		for (int i = 0; i < helper.getLine().length(); i++) {
-			pom = helper.getNextSymbol();
-			Iterator<String> binaryIterator;
-			int index;
-			Boolean flag = false;
-			switch (pom) {
-			case "|":
-
-				or.setFirstSymbol(queueVariables.Pop().getName());
-				or.setSecondSymbol(queueVariables.Pop().getName());
-				queueBPom[0] = queueValues.Pop().getName();
-				queueBPom[1] = queueValues.Pop().getName();
-				while(!queueValues.isEmpty())
-				{
-					queueValues.Pop();
-				}
-				binaryIterator = binaryList.iterator();
-				index = 0;
-
-				while (binaryIterator.hasNext()) {
-					String orPom = binaryIterator.next();
-					System.out.print(orPom.charAt(Integer.parseInt(queueBPom[1])) + " ");
-					System.out.println(orPom.charAt(Integer.parseInt(queueBPom[0])));
-					or.setFirstValue(orPom.charAt(Integer.parseInt(queueBPom[1])) + "");
-					or.setSecondValue(orPom.charAt(Integer.parseInt(queueBPom[0])) + "");
-					binaryList.set(index, new StringBuilder(orPom).append(or.calculate()).toString());
-					index++;
-				}
-				System.out.println("####");
-				flag = true;
-				variableList.add(or.getOperation());
-				queueVariables.Push(or.getOperation(), 0);
-				String a = or.getOperation();
-				queueValues.Push(String.valueOf(getVariableColumn(or.getOperation())), 0);
-				break;
-			case "&":
-
-				and.setFirstSymbol(queueVariables.Pop().getName());
-				and.setSecondSymbol(queueVariables.Pop().getName());
-				queueBPom[0] = queueValues.Pop().getName();
-				queueBPom[1] = queueValues.Pop().getName();
-				while(!queueValues.isEmpty())
-				{
-					queueValues.Pop();
-				}
-
-				binaryIterator = binaryList.iterator();
-				index = 0;
-				while (binaryIterator.hasNext()) {
-					String orPom = binaryIterator.next();
-					System.out.print(orPom.charAt(Integer.parseInt(queueBPom[1])) + " ");
-					System.out.println(orPom.charAt(Integer.parseInt(queueBPom[0])));
-
-					and.setFirstValue(orPom.charAt(Integer.parseInt(queueBPom[1])) + "");
-					and.setSecondValue(orPom.charAt(Integer.parseInt(queueBPom[0])) + "");
-					binaryList.set(index, new StringBuilder(orPom).append(and.calculate()).toString());
-					index++;
-				}
-				flag = true;
-				System.out.println();
-				variableList.add(and.getOperation());
-				queueVariables.Push(and.getOperation(), 0);
-				queueValues.Push(String.valueOf(getVariableColumn(and.getOperation())), 0);
-					break;
-			case "%":
-				xor.setFirstSymbol(queueVariables.Pop().getName());
-				xor.setSecondSymbol(queueVariables.Pop().getName());
-				queueBPom[0] = queueValues.Pop().getName();
-				queueBPom[1] = queueValues.Pop().getName();
-				while(!queueValues.isEmpty())
-				{
-					queueValues.Pop();
-				}
-
-				binaryIterator = binaryList.iterator();
-				index = 0;
-				while (binaryIterator.hasNext()) {
-					String orPom = binaryIterator.next();
-					System.out.print(orPom.charAt(Integer.parseInt(queueBPom[1])) + " ");
-					System.out.println(orPom.charAt(Integer.parseInt(queueBPom[0])));
-
-					xor.setFirstValue(orPom.charAt(Integer.parseInt(queueBPom[1])) + "");
-					xor.setSecondValue(orPom.charAt(Integer.parseInt(queueBPom[0])) + "");
-					binaryList.set(index, new StringBuilder(orPom).append(xor.calculate()).toString());
-					index++;
-				}
-				flag = true;
-				System.out.println();
-				variableList.add(xor.getOperation());
-				queueVariables.Push(xor.getOperation(), 0);
-				queueValues.Push(String.valueOf(getVariableColumn(xor.getOperation())), 0);
-					break;
-			default:
-				if (flag == false) {
-					queueVariables.Push(pom, 0);
-					queueValues.Push(String.valueOf(getVariableColumn(pom)), 0);
-				}
-				break;
-			}
-
-		}
 	}
 
 	public void printPrimaryVariablesMatrix() {
+		calculateInput();
 		Iterator<String> binaryIterator = binaryList.iterator();
 		Iterator<String> variableIterator = variableList.iterator();
 
@@ -182,4 +80,158 @@ public class Primary {
 		return -1;
 	}
 
+	
+	private void calculateInput(){
+		String pom;
+		String queueVPom[] = new String[4];
+		String queueBPom[] = new String[4];
+		boolean notFlag = false;
+		for (int i = 0; i < helper.getLine().length(); i++) {
+			pom = helper.getNextSymbol();
+			Iterator<String> binaryIterator;
+			int index;
+			Boolean flag = false;
+			switch (pom) {
+			case "|":
+				if(notFlag==false) {
+				or.setFirstSymbol(queueVariables.Pop().getName());
+				or.setSecondSymbol(queueVariables.Pop().getName());
+				queueBPom[0] = queueValues.Pop().getName();
+				queueBPom[1] = queueValues.Pop().getName();
+				while(!queueValues.isEmpty())
+				{
+					queueValues.Pop();
+				}
+				binaryIterator = binaryList.iterator();
+				index = 0;
+
+				while (binaryIterator.hasNext()) {
+					String orPom = binaryIterator.next();
+					or.setFirstValue(orPom.charAt(Integer.parseInt(queueBPom[1])) + "");
+					or.setSecondValue(orPom.charAt(Integer.parseInt(queueBPom[0])) + "");
+					binaryList.set(index, new StringBuilder(orPom).append(or.calculate()).toString());
+					index++;
+				}
+				flag = true;
+				variableList.add(or.getOperation());
+				queueVariables.Push(or.getOperation(), 0);
+				String a = or.getOperation();
+				queueValues.Push(String.valueOf(getVariableColumn(or.getOperation())), 0);
+				}
+				else
+				{
+					nor.setFirstSymbol(queueVariables.Pop().getName());
+					nor.setSecondSymbol(queueVariables.Pop().getName());
+					queueBPom[0] = queueValues.Pop().getName();
+					queueBPom[1] = queueValues.Pop().getName();
+					while(!queueValues.isEmpty())
+					{
+						queueValues.Pop();
+					}
+					binaryIterator = binaryList.iterator();
+					index = 0;
+
+					while (binaryIterator.hasNext()) {
+						String orPom = binaryIterator.next();
+						nor.setFirstValue(orPom.charAt(Integer.parseInt(queueBPom[1])) + "");
+						nor.setSecondValue(orPom.charAt(Integer.parseInt(queueBPom[0])) + "");
+						binaryList.set(index, new StringBuilder(orPom).append(nor.calculate()).toString());
+						index++;
+					}
+					flag = true;
+					notFlag=false;
+					variableList.add(nor.getOperation());
+					queueVariables.Push(nor.getOperation(), 0);
+					String a = nor.getOperation();
+					queueValues.Push(String.valueOf(getVariableColumn(nor.getOperation())), 0);
+				}
+				break;
+			case "&":
+				if(notFlag==false) {
+				and.setFirstSymbol(queueVariables.Pop().getName());
+				and.setSecondSymbol(queueVariables.Pop().getName());
+				queueBPom[0] = queueValues.Pop().getName();
+				queueBPom[1] = queueValues.Pop().getName();
+				while(!queueValues.isEmpty())
+				{
+					queueValues.Pop();
+				}
+
+				binaryIterator = binaryList.iterator();
+				index = 0;
+				while (binaryIterator.hasNext()) {
+					String orPom = binaryIterator.next();
+					and.setFirstValue(orPom.charAt(Integer.parseInt(queueBPom[1])) + "");
+					and.setSecondValue(orPom.charAt(Integer.parseInt(queueBPom[0])) + "");
+					binaryList.set(index, new StringBuilder(orPom).append(and.calculate()).toString());
+					index++;
+				}
+				flag = true;
+				variableList.add(and.getOperation());
+				queueVariables.Push(and.getOperation(), 0);
+				queueValues.Push(String.valueOf(getVariableColumn(and.getOperation())), 0);
+					break;
+				}else {
+					nand.setFirstSymbol(queueVariables.Pop().getName());
+					nand.setSecondSymbol(queueVariables.Pop().getName());
+					queueBPom[0] = queueValues.Pop().getName();
+					queueBPom[1] = queueValues.Pop().getName();
+					while(!queueValues.isEmpty())
+					{
+						queueValues.Pop();
+					}
+
+					binaryIterator = binaryList.iterator();
+					index = 0;
+					while (binaryIterator.hasNext()) {
+						String orPom = binaryIterator.next();
+						nand.setFirstValue(orPom.charAt(Integer.parseInt(queueBPom[1])) + "");
+						nand.setSecondValue(orPom.charAt(Integer.parseInt(queueBPom[0])) + "");
+						binaryList.set(index, new StringBuilder(orPom).append(nand.calculate()).toString());
+						index++;
+					}
+					flag = true;
+					variableList.add(nand.getOperation());
+					queueVariables.Push(nand.getOperation(), 0);
+					queueValues.Push(String.valueOf(getVariableColumn(nand.getOperation())), 0);
+				}
+				break;
+			case "%":
+				xor.setFirstSymbol(queueVariables.Pop().getName());
+				xor.setSecondSymbol(queueVariables.Pop().getName());
+				queueBPom[0] = queueValues.Pop().getName();
+				queueBPom[1] = queueValues.Pop().getName();
+				while(!queueValues.isEmpty())
+				{
+					queueValues.Pop();
+				}
+
+				binaryIterator = binaryList.iterator();
+				index = 0;
+				while (binaryIterator.hasNext()) {
+					String orPom = binaryIterator.next();
+					xor.setFirstValue(orPom.charAt(Integer.parseInt(queueBPom[1])) + "");
+					xor.setSecondValue(orPom.charAt(Integer.parseInt(queueBPom[0])) + "");
+					binaryList.set(index, new StringBuilder(orPom).append(xor.calculate()).toString());
+					index++;
+				}
+				flag = true;
+				variableList.add(xor.getOperation());
+				queueVariables.Push(xor.getOperation(), 0);
+				queueValues.Push(String.valueOf(getVariableColumn(xor.getOperation())), 0);
+					break;
+			
+			case "~":
+				notFlag=true;
+				break;
+			default:
+				if (flag == false) {
+					queueVariables.Push(pom, 0);
+					queueValues.Push(String.valueOf(getVariableColumn(pom)), 0);
+				}
+				break;
+			}
+
+		}
+	}
 }
