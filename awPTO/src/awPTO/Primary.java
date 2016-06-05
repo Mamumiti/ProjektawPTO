@@ -40,9 +40,14 @@ public class Primary {
 			switch (pom) {
 			case "|":
 					for (int j = 0; j < binaryArray.length; j++) {
-						for (int j2 = 0; j2 < binaryArray[j].length(); j2++) {
-							
-						}
+						//System.out.println((binaryArray[j].charAt(0)+"").equals("1"));
+						or.setFirstValue(binaryArray[j].charAt(0)+"");
+						or.setSecondValue(binaryArray[j].charAt(1)+"");
+						or.setFirstSymbol('A');
+						or.setSecondSymbol('B');
+						or.calculate();
+						or.printOperation();
+						or.printResult();
 					}
 				break;
 

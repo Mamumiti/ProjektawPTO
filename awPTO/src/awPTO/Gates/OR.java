@@ -6,8 +6,24 @@ public class OR {
 	private String secondValue;
 	private String result;
 	private char firstSymbol;
+	public char getFirstSymbol() {
+		return firstSymbol;
+	}
+
+	public void setFirstSymbol(char firstSymbol) {
+		this.firstSymbol = firstSymbol;
+	}
+
+	public char getSecondSymbol() {
+		return secondSymbol;
+	}
+
+	public void setSecondSymbol(char secondSymbol) {
+		this.secondSymbol = secondSymbol;
+	}
+
 	private char secondSymbol;
-		
+
 	public String getFirstValue() {
 		return firstValue;
 	}
@@ -24,10 +40,12 @@ public class OR {
 		this.secondValue = secondValue;
 	}
 
-	public String calculate(String firstValue, String secondValue) {
-		if ((firstValue.equals("1")) && (secondValue.equals("1"))) {
+	public String calculate() {
+		if ((firstValue.equals("1")) || (secondValue.equals("1"))) {
+			result = "1";
 			return "1";
 		}
+		result = "0";
 		return "0";
 	}
 
@@ -47,14 +65,13 @@ public class OR {
 	public void printResult() {
 		System.out.println(result);
 	}
-	
+
 	public String getOperation() {
-		return  new StringBuilder().append(firstSymbol).append("|").append(secondSymbol).toString();
+		return new StringBuilder().append(firstSymbol).append("|").append(secondSymbol).toString();
 	}
-	
+
 	public void printOperation() {
 		System.out.print(new StringBuilder().append(firstSymbol).append("|").append(secondSymbol).toString());
 	}
-	
 
 }
