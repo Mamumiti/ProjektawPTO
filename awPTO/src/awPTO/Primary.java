@@ -228,28 +228,28 @@ public class Primary {
 				notFlag=true;
 				break;
 			default:
-				if(notFlag==true) {
-					not.setSymbol((queueVariables.Pop().getName()));
-					queueBPom[0] = queueValues.Pop().getName();
-					queueBPom[1] = queueValues.Pop().getName();
-					while(!queueValues.isEmpty())
-					{
-						queueValues.Pop();
-					}
-
-					binaryIterator = binaryList.iterator();
-					index = 0;
-					while (binaryIterator.hasNext()) {
-						String orPom = binaryIterator.next();
-						not.setValue(orPom.charAt(Integer.parseInt(queueBPom[1])) + "");
-						binaryList.set(index, new StringBuilder(orPom).append(not.calculate()).toString());
-						index++;
-					}
-				
-					variableList.add(not.getOperation());
-					queueVariables.Push(not.getOperation(), 0);
-					queueValues.Push(String.valueOf(getVariableColumn(not.getOperation())), 0);
-				}
+//				if(notFlag==true) {
+//					not.setSymbol((queueVariables.Pop().getName()));
+//					queueBPom[0] = queueValues.Pop().getName();
+//					queueBPom[1] = queueValues.Pop().getName();
+//					while(!queueValues.isEmpty())
+//					{
+//						queueValues.Pop();
+//					}
+//
+//					binaryIterator = binaryList.iterator();
+//					index = 0;
+//					while (binaryIterator.hasNext()) {
+//						String orPom = binaryIterator.next();
+//						not.setValue(orPom.charAt(Integer.parseInt(queueBPom[1])) + "");
+//						binaryList.set(index, new StringBuilder(orPom).append(not.calculate()).toString());
+//						index++;
+//					}
+//				
+//					variableList.add(not.getOperation());
+//					queueVariables.Push(not.getOperation(), 0);
+//					queueValues.Push(String.valueOf(getVariableColumn(not.getOperation())), 0);
+//				}
 					queueVariables.Push(pom, 0);
 					queueValues.Push(String.valueOf(getVariableColumn(pom)), 0);
 				
