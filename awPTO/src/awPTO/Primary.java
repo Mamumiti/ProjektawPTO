@@ -12,7 +12,7 @@ public class Primary {
 
 	private Helper helper;
 	private OR or;
-	private AND and;
+	private NAND and;
 	private XOR xor;
 	private NOR nor;
 	private NAND nand;
@@ -27,7 +27,7 @@ public class Primary {
 		queueValues = new Queue(helper.getLine().length());
 		queueVariables = new Queue(helper.getLine().length());
 		or = new OR();
-		and = new AND();
+		and = new NAND();
 		xor = new XOR();
 		nand = new NAND();
 		nor = new NOR();
@@ -68,7 +68,7 @@ public class Primary {
 		}
 	}
 
-	private int getVariableColumn(String variable) {
+	public int getVariableColumn(String variable) {
 		int i = 0;
 		Iterator<String> variableIterator = variableList.iterator();
 		Set<String> s = helper.getVariables();

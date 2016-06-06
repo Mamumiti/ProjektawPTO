@@ -69,7 +69,7 @@ public class Helper {
 		return binaryMatrix.size();
 	}
 
-	private Set<String> generateBinaryMatrix() {
+	public Set<String> generateBinaryMatrix() {
 		Set<String> tree = new TreeSet<>();
 		for (int i = 0; i < Math.pow(2, getVariableQuantity()); i++) {
 			StringBuilder st = new StringBuilder();
