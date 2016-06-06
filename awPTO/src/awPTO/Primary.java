@@ -183,7 +183,7 @@ public class Primary {
 					{
 						queueValues.Pop();
 					}
-
+					
 					binaryIterator = binaryList.iterator();
 					index = 0;
 					while (binaryIterator.hasNext()) {

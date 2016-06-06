@@ -13,7 +13,7 @@ import org.junit.runners.Parameterized.Parameters;
 import awPTO.Gates.NOR;
 import awPTO.Gates.NOT;
 @RunWith(Parameterized.class)
-public class NorSymbolTest {
+public class NotSymbolTest {
 	
 	@Parameters
 	public static Collection<Object[]> data() {
@@ -24,7 +24,7 @@ public class NorSymbolTest {
 	private String input1;
 	private String expected;
 
-	public NorSymbolTest(String input1, String excepted) {
+	public NotSymbolTest(String input1, String excepted) {
 		this.input1 = input1;
 		this.expected = excepted;
 	}
